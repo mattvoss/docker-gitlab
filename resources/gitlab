@@ -122,6 +122,19 @@ sudo -u git -H sed 's/{{DB_USER}}/'${DB_USER}'/' -i /home/git/gitlab/config/data
 sudo -u git -H sed 's/{{DB_PASS}}/'${DB_PASS}'/' -i /home/git/gitlab/config/database.yml
 sudo -u git -H sed 's/{{DB_POOL}}/'${DB_POOL}'/' -i /home/git/gitlab/config/database.yml
 
+# update ldap settings
+if [ "${LDAP_HOST}" ]; then
+  sudo -u git -H sed 's/enabled: false/enabled: true/' -i /home/git/gitlab/config/gitlab.yml
+  sudo -u git -H sed 's/host: '_your_ldap_server'/host: '${LDAP_HOST}'/' -i /home/git/gitlab/config/gitlab.yml
+  sudo -u git -H sed 's/base: '_the_base_where_you_search_for_users'/base: '${LDAP_BASE}'/' -i /home/git/gitlab/config/gitlab.yml
+  sudo -u git -H sed 's/port: 636/port: '${LDAP_PORT}'/' -i /home/git/gitlab/config/gitlab.yml
+  sudo -u git -H sed 's/uid: 'sAMAccountName'/uid: '${LDAP_UID}'/' -i /home/git/gitlab/config/gitlab.yml
+  sudo -u git -H sed 's/method: 'ssl'/method: '${LDAP_METHOD}'/' -i /home/git/gitlab/config/gitlab.yml
+  sudo -u git -H sed 's/bind_dn: '_the_full_dn_of_the_user_you_will_bind_with'/bind_dn: '${LDAP_BIND_DN}'/' -i /home/git/gitlab/config/gitlab.yml
+  sudo -u git -H sed 's/password: '_the_password_of_the_bind_user'/password: '${LDAP_PASSWORD}'/' -i /home/git/gitlab/config/gitlab.yml
+  sudo -u git -H sed 's/allow_username_or_email_login: true/allow_username_or_email_login: '${LDAP_ALLOW_EMAIL_LOGIN}'/' -i /home/git/gitlab/config/gitlab.yml
+fi
+
 # configure sidekiq
 sudo -u git -H sed 's/{{SIDEKIQ_CONCURRENCY}}/'${SIDEKIQ_CONCURRENCY}'/' -i /home/git/gitlab/config/sidekiq.yml
 
