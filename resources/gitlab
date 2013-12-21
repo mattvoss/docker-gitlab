@@ -24,6 +24,10 @@ SMTP_HOST=${SMTP_HOST:-mail.politkz.com}
 SMTP_PORT=${SMTP_PORT:-25}
 SMTP_USER=${SMTP_USER:-}
 SMTP_PASS=${SMTP_PASS:-}
+SMTP_DOMAIN=${SMTP_DOMAIN:-}
+SMTP_AUTH=${SMTP_AUTH:-}
+SMTP_STARTTLS=${SMTP_STARTTLS:-}
+
 
 # start supervisord
 /usr/bin/supervisord
