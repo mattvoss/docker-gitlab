@@ -13,14 +13,15 @@ UNICORN_TIMEOUT=${UNICORN_TIMEOUT:-60}
 SIDEKIQ_CONCURRENCY=${SIDEKIQ_CONCURRENCY:-5}
 
 DB_HOST=${DB_HOST:-localhost}
-DB_NAME=${DB_NAME:-gitlabhq_production}
-DB_USER=${DB_USER:-root}
+DB_PORT=${DB_PORT:-3306}
+DB_NAME=${DB_NAME:-gitlab}
+DB_USER=${DB_USER:-gitlab}
 DB_PASS=${DB_PASS:-}
 DB_INIT=${DB_INIT:-}
 DB_POOL=${DB_POOL:-5}
 
-SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}
-SMTP_PORT=${SMTP_PORT:-587}
+SMTP_HOST=${SMTP_HOST:-mail.politkz.com}
+SMTP_PORT=${SMTP_PORT:-25}
 SMTP_USER=${SMTP_USER:-}
 SMTP_PASS=${SMTP_PASS:-}
 
@@ -128,6 +129,7 @@ sudo -u git -H sed 's/# signup_enabled: true/signup_enabled: '${GITLAB_SIGNUP}'/
 
 # configure database
 sudo -u git -H sed 's/{{DB_HOST}}/'${DB_HOST}'/' -i /home/git/gitlab/config/database.yml
+sudo -u git -H sed 's/{{DB_PORT}}/'${DB_PORT}'/' -i /home/git/gitlab/config/database.yml
 sudo -u git -H sed 's/{{DB_NAME}}/'${DB_NAME}'/' -i /home/git/gitlab/config/database.yml
 sudo -u git -H sed 's/{{DB_USER}}/'${DB_USER}'/' -i /home/git/gitlab/config/database.yml
 sudo -u git -H sed 's/{{DB_PASS}}/'${DB_PASS}'/' -i /home/git/gitlab/config/database.yml
