@@ -60,10 +60,10 @@ if [ -d "/gitlab/setup/cache" ]; then
   # offline gem installation
   mv /gitlab/setup/cache vendor/
   chown -R git:git vendor/cache
-  sudo -u git -H bundle install --local --deployment --without development test postgres aws
+  sudo -u git -H bundle install --verbose --local --deployment --without development test postgres aws
 else
   # online gem installation
-  sudo -u git -H bundle install --deployment --without development test postgres aws
+  sudo -u git -H bundle install --verbose --deployment --without development test postgres aws
 fi
 
 # add database.yml template
