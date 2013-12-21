@@ -67,6 +67,25 @@ production:
 EOF
 chmod o-rwx config/database.yml
 
+#add smtp.rb template
+sudo -u git -H cat >  config/initializers/smtp_settings.rb <<EOF
+if Rails.env.production?
+  Gitlab::Application.config.action_mailer.delivery_method = :smtp
+
+  ActionMailer::Base.smtp_settings = {
+    address: {{EMAIL_SERVER}},
+    port: {{EMAIL_PORT}},
+    user_name: {{EMAIL_USER}},
+    password: {{EMAIL_PASSWORD}},
+    domain: {{EMAIL_DOMAIN}},
+    authentication: {{EMAIL_AUTH}},
+    enable_starttls_auto: {{EMAIL_STARTTLS}}
+  }
+end
+EOF
+chmod o-rwx config/initializers/smtp_settings.rb
+
+
 sudo -u git -H cat > config/sidekiq.yml <<EOF
 :concurrency: {{SIDEKIQ_CONCURRENCY}}
 EOF
