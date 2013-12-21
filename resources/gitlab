@@ -28,6 +28,15 @@ SMTP_DOMAIN=${SMTP_DOMAIN:-politkz.com}
 SMTP_AUTH=${SMTP_AUTH:-}
 SMTP_STARTTLS=${SMTP_STARTTLS:-false}
 
+LDAP_HOST=${LDAP_HOST:-}
+LDAP_PORT=${LDAP_PORT:-636}
+LDAP_BASE=${LDAP_BASE:-ou=people,dc=politkz,dc=com}
+LDAP_UID=${LDAP_UID:-uid}
+LDAP_METHOD=${LDAP_METHOD:-plain}
+LDAP_BIND_DN=${LDAP_BIND_DN:-}
+LDAP_PASSWORD=${LDAP_PASSWORD:-password}
+LDAP_ALLOW_EMAIL_LOGIN=${LDAP_ALLOW_EMAIL_LOGIN:-true}
+
 
 # start supervisord
 /usr/bin/supervisord
