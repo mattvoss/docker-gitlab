@@ -11,7 +11,7 @@ RUN apt-get install -y wget curl unzip build-essential checkinstall zlib1g-dev l
 RUN apt-get install -y python-software-properties && \
 		add-apt-repository -y ppa:git-core/ppa && \
 		apt-get update && apt-get install -y libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev libmysqlclient-dev \
-		sudo nginx git-core openssh-server python2.7 python-docutils postfix logrotate supervisor vim && \
+		sudo nginx git git-core openssh-server python2.7 python-docutils postfix logrotate supervisor vim && \
 		apt-get clean
 
 RUN wget ftp://ftp.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p353.tar.gz -O - | tar -zxf - -C /tmp/ && \
@@ -22,7 +22,16 @@ RUN wget ftp://ftp.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p353.tar.gz -O - | tar 
 		gem install --no-ri --no-rdoc bundler
 
 ADD resources/ /gitlab/
-RUN chmod 755 /gitlab/gitlab /gitlab/setup/install && /gitlab/setup/install
+RUN useradd  -s /sbin/nologin -c Gitlab,,,, git
+
+RUN chmod 755 /gitlab/gitlab && mkdir -p /home/git && chown git /home/git && cd /home/git
+
+RUN git clone https://github.com/gitlabhq/gitlab-shell.git -b v1.8.0 /home/git/gitlab-shell && \
+    git clone https://github.com/gitlabhq/gitlabhq.git -b 6-4-stable /home/git/gitlab && \
+    chown -R git /home/git
+    
+
+RUN chmod 755 /gitlab/setup/install && /gitlab/setup/install
 
 ADD resources/authorized_keys /root/.ssh/
 RUN chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys && chown root:root -R /root/.ssh
