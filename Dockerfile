@@ -22,9 +22,12 @@ RUN wget ftp://ftp.ruby-lang.org/pub/ruby/2.0/ruby-2.0.0-p353.tar.gz -O - | tar 
 		gem install --no-ri --no-rdoc bundler
 
 ADD resources/ /gitlab/
-RUN useradd  -s /sbin/nologin -c Gitlab,,,, git
 
-RUN chmod 755 /gitlab/gitlab && mkdir -p /home/git && chown git /home/git && cd /home/git
+RUN chmod ugo+rw /dev/null
+
+RUN useradd -m -c Gitlab,,,, git
+
+RUN chmod 755 /gitlab/gitlab && cd /home/git
 
 RUN git clone https://github.com/gitlabhq/gitlab-shell.git -b v1.8.0 /home/git/gitlab-shell && \
     git clone https://github.com/gitlabhq/gitlabhq.git -b 6-4-stable /home/git/gitlab && \
